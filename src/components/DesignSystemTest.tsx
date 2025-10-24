@@ -26,7 +26,11 @@ function DesignSystemTest() {
         </div>
         <div className="flex gap-4">
           <div className="w-20 h-20 shadow-elevation-1"></div>
+          <div className="w-20 h-20 border rounded-md shadow-elevation-1"></div>
           <div className="w-20 h-20 shadow-elevation-2"></div>
+          <div className="w-20 h-20 border rounded-md shadow-elevation-2"></div>
+          <div className="w-20 h-20 shadow-make-cartoonish"></div>
+          <div className="w-20 h-20 border rounded-md shadow-make-cartoonish"></div>
         </div>
       </div>
 

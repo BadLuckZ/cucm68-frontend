@@ -5,7 +5,8 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-1 px-3 py-1 min-w-fit min-h-fit whitespace-nowrap label-large transition-all disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none",
+  "inline-flex items-center justify-center gap-1 px-3 py-1 w-full min-w-0 min-h-fit label-large transition-all outline-none shrink-0 " +
+    "disabled:pointer-events-none disabled:bg-deep-deep-grey [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -14,30 +15,38 @@ const buttonVariants = cva(
       },
       size: {
         default: "h-[32px] rounded-md",
-        sm: "h-[32px] w-[100px] rounded-full",
-        md: "h-[48px] w-[112px] rounded-full",
-        lg: "h-[44px] w-[248px] rounded-md",
+        sm: "h-[32px] max-w-[100px] rounded-full",
+        md: "h-[24px] max-w-[148px] rounded-full",
+        lg: "h-[44px] max-w-[235px] rounded-md",
+
+        // Used in Mod and Admin role along with cartoonish style
+        xl: "h-[80px] max-w-[160px] rounded-md",
+        xxl: "h-[80px] max-w-[352px] rounded-md",
       },
       color: {
         purple:
-          "bg-purple text-white border-purple hover:bg-purple/90 disabled:bg-purple/50 disabled:text-white/70",
-        pink: "bg-pink text-white border-pink hover:bg-pink/90 disabled:bg-pink/50 disabled:text-white/70",
+          "bg-purple text-white border-purple hover:bg-purple/90 disabled:text-white/70",
+        pink: "bg-pink text-white border-pink hover:bg-pink/90 disabled:text-white/70",
         "light-pink":
-          "bg-light-pink text-black border-light-pink hover:bg-light-pink/90 disabled:bg-light-pink/50",
+          "bg-light-pink text-black border-light-pink hover:bg-light-pink/90 disabled:text-white/70",
         "vivid-pink":
-          "bg-vivid-pink text-white border-vivid-pink hover:bg-vivid-pink/90 disabled:bg-vivid-pink/50",
+          "bg-vivid-pink text-white border-vivid-pink hover:bg-vivid-pink/90 disabled:text-white/70",
         "light-blue":
-          "bg-light-blue text-black border-light-blue hover:bg-light-blue/90 disabled:bg-light-blue/50",
+          "bg-light-blue text-black border-light-blue hover:bg-light-blue/90 disabled:text-white/70",
         yellow:
-          "bg-yellow text-black border-yellow hover:bg-yellow/90 disabled:bg-yellow/50",
+          "bg-yellow text-black border-yellow hover:bg-yellow/90 disabled:text-white/70",
         white:
-          "bg-white text-black border-grey hover:bg-grey/10 disabled:bg-grey/20",
-        grey: "bg-grey text-black border-deep-grey hover:bg-deep-grey/10 disabled:bg-deep-grey/30",
+          "bg-white text-black border-grey hover:bg-grey/10 disabled:text-white/70",
+        grey: "bg-grey text-black border-deep-grey hover:bg-deep-grey/10 disabled:text-white/70",
         black:
-          "bg-black text-white border-black hover:bg-black/90 disabled:bg-deep-deep-grey/50",
-        red: "bg-red text-white border-red hover:bg-red/90 disabled:bg-red/50",
+          "bg-black text-white border-black hover:bg-black/90 disabled:text-white/70",
+        red: "bg-red text-white border-red hover:bg-red/90 disabled:text-white/70",
         green:
-          "bg-green text-white border-green hover:bg-green/90 disabled:bg-green/50",
+          "bg-green text-white border-green hover:bg-green/90 disabled:text-white/70",
+      },
+      cartoonish: {
+        true: "border-black border shadow-make-cartoonish",
+        false: "",
       },
     },
     compoundVariants: [
@@ -123,14 +132,27 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, color, asChild = false, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      size,
+      color,
+      asChild = false,
+      cartoonish = false,
+      ...props
+    },
+    ref
+  ) => {
     const Comp = asChild ? Slot : "button";
 
     return (
       <Comp
         ref={ref}
         data-slot="button"
-        className={cn(buttonVariants({ variant, size, color, className }))}
+        className={cn(
+          buttonVariants({ variant, size, color, cartoonish, className })
+        )}
         {...props}
       />
     );
